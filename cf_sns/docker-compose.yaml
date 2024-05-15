@@ -1,0 +1,21 @@
+# 어떤 정보를 정의할 것인지
+services:
+  # 우리가 지어주는 이름(공식이름 그런거 없음)
+  postgres:
+    # 우리가 명명한 postgres라는 정보를 구동하기위한 이미지
+    image: postgres:16
+    # 실행할 때마다 재시작
+    restart: always
+    # 도커 이미지 안에서 실행됐던 생성됐던 파일들은 이 이미지 안에서만 존재함
+    # 도커를 끄거나 삭제 시, 그 파일들이 날아갈 수 있음
+    # 따라서 HOST OS의 volumns와 매핑할 것
+    volumes:
+      # 현재위치:이미지 안의 위치 => 현재위치와 이미지안의 위치를 싱크 맞춘다
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      # 원래 postgreSQL은 5432에서 실행되는게 디폴트
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
